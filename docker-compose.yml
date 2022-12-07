@@ -1,29 +1,26 @@
 version: "3"
 services:
   nginx:
-    image: slim-nginx
     build:
-      context: ./nginx
+      context: ./docker/nginx
     volumes:
-      - ../:/srv/www
+      - ./:/srv/www
       - ./nginx/etc/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
     ports:
       - 80:80
       - 443:443
   fpm:
-    image: slim-fpm
     build:
-      context: ./fpm
+      context: ./docker/fpm
     volumes:
-      - ../:/srv/www
+      - ./:/srv/www
   mariadb:
-    image: slim-mariadb
     build:
-      context: ./mariadb
+      context: ./docker/mariadb
     environment:
       - MYSQL_DATABASE=example
       - MYSQL_USER=user
       - MYSQL_PASSWORD=password
       - MYSQL_ROOT_PASSWORD=secret
     volumes:
-      - ./mariadb/data.sql:/docker-entrypoint-initdb.d/data.sql
+      - ./docker/mariadb/data.sql:/docker-entrypoint-initdb.d/data.sql
