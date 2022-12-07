@@ -3,19 +3,19 @@ version: "3"
 services:
   apache:
     build:
-      context: ./apache
+      context: ./docker/apache
     volumes:
-      - ../:/var/www
+      - ./:/var/www
     ports:
       - "80:80"
       - "443:443"
   mariadb:
     build:
-      context: ./mariadb
+      context: ./docker/mariadb
     environment:
       - MYSQL_DATABASE=example
       - MYSQL_USER=user
       - MYSQL_PASSWORD=password
       - MYSQL_ROOT_PASSWORD=secret
     volumes:
-      - ./mariadb/data.sql:/docker-entrypoint-initdb.d/data.sql
+      - ./docker/mariadb/data.sql:/docker-entrypoint-initdb.d/data.sql
