@@ -9,3 +9,13 @@ services:
     ports:
       - "80:80"
       - "443:443"
+  mariadb:
+    build:
+      context: ./mariadb
+    environment:
+      - MYSQL_DATABASE=example
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=secret
+    volumes:
+      - ./mariadb/data.sql:/docker-entrypoint-initdb.d/data.sql
