@@ -14,13 +14,30 @@ $app->addRoutingMiddleware();
 $app->addBodyParsingMiddleware();
 $app->addErrorMiddleware(true, true, true);
 
+$app->get("/cars", function (
+    ServerRequestInterface $request,
+    ResponseInterface $response,
+    array $arguments
+): ResponseInterface {
+
+    $pdo = new PDO("mysql:host=mariadb;dbname=example", "user", "password");
+
+    $statement = $pdo->prepare("SELECT brand FROM cars");
+    $statement->execute();
+    $result = $statement->fetchAll(PDO::FETCH_OBJ);
+    foreach ($result as $row) {
+        $response->getBody()->write("{$row->brand} ");
+    }
+    return $response;
+});
+
 $app->get("/[{name}]", function (
     ServerRequestInterface $request,
     ResponseInterface $response,
-    array $args
+    array $arguments
 ): ResponseInterface {
-    $name = $args["name"] ?? "world";
-    $response->getBody()->write("hello $name");
+    $name = $arguments["name"] ?? "world";
+    $response->getBody()->write("hello  {$name}");
     return $response;
 });
 
