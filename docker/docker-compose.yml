@@ -1,6 +1,7 @@
 version: "3"
 services:
   nginx:
+    image: slim-nginx
     build:
       context: ./nginx
     volumes:
@@ -10,11 +11,13 @@ services:
       - 80:80
       - 443:443
   fpm:
+    image: slim-fpm
     build:
       context: ./fpm
     volumes:
       - ../:/srv/www
   mariadb:
+    image: slim-mariadb
     build:
       context: ./mariadb
     environment:
