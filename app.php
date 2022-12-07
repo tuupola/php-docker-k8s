@@ -46,7 +46,7 @@ $app->get("/[{name}]", function (
     array $arguments
 ): ResponseInterface {
     $name = $arguments["name"] ?? "world";
-    $response->getBody()->write("hello  {$name}");
+    $response->getBody()->write("Hello {$name}!");
     return $response;
 });
 
