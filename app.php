@@ -14,6 +14,15 @@ $app->addRoutingMiddleware();
 $app->addBodyParsingMiddleware();
 $app->addErrorMiddleware(true, true, true);
 
+$app->get("/server", function (
+    ServerRequestInterface $request,
+    ResponseInterface $response,
+    array $args
+): ResponseInterface {
+    $response->getBody()->write(var_export($_SERVER, true));
+    return $response;
+});
+
 $app->get("/cars", function (
     ServerRequestInterface $request,
     ResponseInterface $response,
