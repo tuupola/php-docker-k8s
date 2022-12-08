@@ -3,5 +3,10 @@
         "slim/slim": "^4.11",
         "nyholm/psr7": "^1.5",
         "nyholm/psr7-server": "^1.0"
+    },
+    "config": {
+        "platform": {
+            "php": "8.1"
+        }
     }
 }
