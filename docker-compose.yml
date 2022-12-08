@@ -5,7 +5,7 @@ services:
     build:
       context: ./docker/apache
     volumes:
-      - ./:/var/www
+      - ./:/srv/www
     ports:
       - "80:80"
       - "443:443"
