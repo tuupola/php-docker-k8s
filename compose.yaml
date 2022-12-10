@@ -8,8 +8,7 @@ services:
       - "80:80"
       - "443:443"
   mariadb:
-    build:
-      context: ./docker/mariadb
+    image: mariadb:latest
     environment:
       - MYSQL_DATABASE=example
       - MYSQL_USER=user
