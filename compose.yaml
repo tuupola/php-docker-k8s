@@ -1,12 +1,23 @@
 services:
+  traefik:
+    image: traefik:2.9
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    command:
+      - --providers.docker
+      - --api.insecure=true
+      - --accesslog
+      - --log
+      - --providers.docker.defaultRule=Host(`{{ trimPrefix `/` .Name }}.localhost`)
   apache:
     build:
       context: ./docker/apache
     volumes:
       - ./:/srv/www
-    ports:
-      - "80:80"
-      - "443:443"
   mariadb:
     image: mariadb:latest
     environment:
