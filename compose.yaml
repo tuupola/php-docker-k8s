@@ -23,7 +23,7 @@ services:
       - ./:/srv/www
     labels:
       - traefik.enable=true
-      - traefik.http.routers.slim.rule=Host(`slim.localhost`)
+      - traefik.http.routers.apache.rule=Host(`slim.localhost`)
   mariadb:
     image: mariadb:latest
     environment:
