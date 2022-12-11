@@ -1,6 +1,6 @@
-# Traegik + Slim + Apache + MariaDB
+# Traefik + Slim + Apache + MariaDB
 
-Traefik reverse proxy in front PHP 8.1 as Apache an module and MariaDB as database. All in separate containers. This requires you to install Composer dependencies locally in the host machine.
+Traefik reverse proxy in front of PHP 8.1 as Apache an module and MariaDB as database. All in separate containers. This requires you to install Composer dependencies locally in the host machine.
 
 ```
 $ git clone https://github.com/tuupola/slim-docker.git
