@@ -11,6 +11,19 @@ $ docker compose build
 $ docker compose up
 ```
 
+Verify you can access the [dashboard](http://traefik.localhost/dashboard/).
+
+```
+$ curl --include traefik.localhost
+HTTP/1.1 302 Found
+Content-Type: text/html; charset=utf-8
+Location: /dashboard/
+Date: Sun, 11 Dec 2022 13:54:45 GMT
+Content-Length: 34
+
+<a href="/dashboard/">Found</a>.
+```
+
 Verify that the [basic route](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L43-L51) is working.
 
 ```
