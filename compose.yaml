@@ -9,15 +9,18 @@ services:
       - "8080:8080"
     command:
       - --providers.docker
+      - --providers.docker.exposedbydefault=false
       - --api.insecure=true
       - --accesslog
       - --log
-      - --providers.docker.defaultRule=Host(`{{ trimPrefix `/` .Name }}.localhost`)
   apache:
     build:
       context: ./docker/apache
     volumes:
       - ./:/srv/www
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.slim.rule=Host(`slim.localhost`)
   mariadb:
     image: mariadb:latest
     environment:
