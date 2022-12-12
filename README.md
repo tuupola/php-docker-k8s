@@ -14,7 +14,7 @@ $ docker compose up
 Verify that the [basic route](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L43-L51) is working.
 
 ```
-$ curl --include localhost
+$ curl --ipv4 --include localhost
 HTTP/1.1 200 OK
 Date: Thu, 08 Dec 2022 09:00:54 GMT
 Server: Apache/2.4.54 (Debian)
@@ -24,7 +24,7 @@ Content-Type: text/html; charset=UTF-8
 
 Hello world!
 
-$ curl --include localhost/mars
+$ curl --ipv4 --include localhost/mars
 HTTP/1.1 200 OK
 Date: Thu, 08 Dec 2022 09:01:29 GMT
 Server: Apache/2.4.54 (Debian)
@@ -38,7 +38,7 @@ Hello mars!
 Verify you can [query the database](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L26-L41) successfully.
 
 ```
-$ curl --include localhost/cars
+$ curl --ipv4 --include localhost/cars
 HTTP/1.1 200 OK
 Date: Thu, 08 Dec 2022 09:03:06 GMT
 Server: Apache/2.4.54 (Debian)
@@ -52,7 +52,7 @@ Tesla Audi BMW
 Verify that [static files](https://github.com/tuupola/slim-docker/blob/apache-php/public/static.html) are being served.
 
 ```
-$ curl --include localhost/static.html
+$ curl --ipv4 --include localhost/static.html
 HTTP/1.1 200 OK
 Date: Thu, 08 Dec 2022 09:10:43 GMT
 Server: Apache/2.4.54 (Debian)
@@ -68,7 +68,7 @@ static
 You can also [dump the `$_SERVER`](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L17-L24) superglobal for debugging purposes.
 
 ```
-curl --include "localhost/server?foo=bar"
+curl --ipv4 --include "localhost/server?foo=bar"
 HTTP/1.1 200 OK
 Date: Thu, 08 Dec 2022 09:11:20 GMT
 Server: Apache/2.4.54 (Debian)
