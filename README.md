@@ -14,7 +14,7 @@ $ docker compose up
 Verify you can access the [dashboard](http://traefik.localhost/dashboard/).
 
 ```
-$ curl --include traefik.localhost
+$ curl --ipv4 --include traefik.localhost
 HTTP/1.1 302 Found
 Content-Type: text/html; charset=utf-8
 Location: /dashboard/
@@ -27,7 +27,7 @@ Content-Length: 34
 Verify that the [basic route](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L43-L51) is working.
 
 ```
-$ curl --include slim.localhost
+$ curl --ipv4 --include slim.localhost
 HTTP/1.1 200 OK
 Content-Length: 12
 Content-Type: text/html; charset=UTF-8
@@ -37,7 +37,7 @@ X-Powered-By: PHP/8.1.13
 
 Hello world!
 
-$ curl --include slim.localhost/mars
+$ curl --ipv4 --include slim.localhost/mars
 HTTP/1.1 200 OK
 Content-Length: 11
 Content-Type: text/html; charset=UTF-8
@@ -51,7 +51,7 @@ Hello mars!
 Verify you can [query the database](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L26-L41) successfully.
 
 ```
-$ curl --include slim.localhost/cars
+$ curl --ipv4 --include slim.localhost/cars
 HTTP/1.1 200 OK
 Content-Length: 15
 Content-Type: text/html; charset=UTF-8
@@ -65,7 +65,7 @@ Tesla Audi BMW
 Verify that [static files](https://github.com/tuupola/slim-docker/blob/apache-php/public/static.html) are being served.
 
 ```
-$ curl --include slim.localhost/static.html
+$ curl --ipv4 --include slim.localhost/static.html
 HTTP/1.1 200 OK
 Accept-Ranges: bytes
 Content-Length: 7
@@ -81,7 +81,7 @@ static
 You can also [dump the `$_SERVER`](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L17-L24) superglobal for debugging purposes.
 
 ```
-curl --include "slim.localhost/server?foo=bar"
+curl --ipv4 --include "slim.localhost/server?foo=bar"
 HTTP/1.1 200 OK
 Content-Type: text/html; charset=UTF-8
 Date: Sun, 11 Dec 2022 10:19:45 GMT
