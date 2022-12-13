@@ -1,6 +1,6 @@
-# Slim + Apache + MariaDB
+# Caddy + Slim + Apache + MariaDB
 
-The simplest possible setup. PHP 8.1 as Apache an module and MariaDB in another container. This requires you to install Composer dependencies locally in the host machine.
+Caddya as reverse proxy in front of PHP 8.1 as an Apache module and MariaDB as the database. All in separate containers. This requires you to install Composer dependencies locally in the host machine.
 
 ```
 $ git clone https://github.com/tuupola/slim-docker.git
@@ -11,7 +11,7 @@ $ docker compose build
 $ docker compose up
 ```
 
-Verify that the [basic route](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L43-L51) is working.
+Verify that the [basic route](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L43-L51) is working. Caddy automatically uses TLS.
 
 ```
 $ curl --ipv4 --include http://apache.localhost
