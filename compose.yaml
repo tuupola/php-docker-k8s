@@ -1,12 +1,18 @@
 services:
+  caddy:
+    image: caddy:2.6
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
   apache:
     build:
       context: ./docker/apache
     volumes:
       - ./:/srv/www
-    ports:
-      - "80:80"
-      - "443:443"
   mariadb:
     image: mariadb:latest
     environment:
