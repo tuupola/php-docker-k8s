@@ -1,3 +1,0 @@
-apache.localhost {
-    reverse_proxy apache
-}

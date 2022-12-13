@@ -1,13 +1,11 @@
 services:
   caddy:
     image: caddy:2.6
-    restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
       - "443:443/udp"
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
+    command: caddy reverse-proxy --from apache.localhost --to apache
   apache:
     build:
       context: ./docker/apache
