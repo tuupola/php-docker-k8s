@@ -1,6 +1,6 @@
 # Slim + Apache + MariaDB
 
-The simplest possible setup. PHP 8.1 as Apache an module and MariaDB in another container. This requires you to install Composer dependencies locally in the host machine.
+The simplest possible development setup. PHP 8.1 as Apache an module and MariaDB in another container. Current directory mounted into webserver so code changes can be seen immediately. This requires you to install Composer dependencies locally in the host machine.
 
 ```
 $ git clone https://github.com/tuupola/slim-docker.git
