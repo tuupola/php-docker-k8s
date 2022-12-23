@@ -13,6 +13,7 @@ services:
       - --accesslog
       - --log
     labels:
+      # Make Traefik dashboard available via Traefik.
       - traefik.enable=true
       - traefik.http.routers.traefik.rule=Host(`traefik.localhost`)
       - traefik.http.routers.traefik.service=api@internal
@@ -22,6 +23,7 @@ services:
     volumes:
       - ./:/srv/www
     labels:
+      # Make Slim available via Traefik.
       - traefik.enable=true
       - traefik.http.routers.apache.rule=Host(`slim.localhost`)
   mariadb:
