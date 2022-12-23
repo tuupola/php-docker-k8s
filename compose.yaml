@@ -9,6 +9,11 @@ services:
     command:
       - --providers.docker
       - --providers.docker.exposedbydefault=false
+      - --entryPoints.open.address=:80
+      - --entryPoints.secure.address=:443
+      # Force http to https redirect
+      - --entrypoints.open.http.redirections.entryPoint.to=secure
+      - --entrypoints.open.http.redirections.entryPoint.scheme=https
       - --api
       - --accesslog
       - --log
@@ -17,15 +22,17 @@ services:
       - traefik.enable=true
       - traefik.http.routers.traefik.rule=Host(`traefik.localhost`)
       - traefik.http.routers.traefik.service=api@internal
+      - traefik.http.routers.traefik.tls=true
   apache:
     build:
       context: ./docker/apache
     volumes:
       - ./:/srv/www
     labels:
-      # Make Slim available via Traefik.
+      # Make Apache available via Traefik.
       - traefik.enable=true
-      - traefik.http.routers.apache.rule=Host(`slim.localhost`)
+      - traefik.http.routers.apache.rule=Host(`apache.localhost`)
+      - traefik.http.routers.apache.tls=true
   mariadb:
     image: mariadb:latest
     environment:
