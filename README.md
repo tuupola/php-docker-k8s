@@ -1,11 +1,11 @@
 # Slim + PHP-FPM + NGINX + MariaDB
 
-The fashionable setup. PHP 8.1 as PHP-FPM reverse proxied by NGINX and MariaDB as database. All in separate containers. This requires you to install Composer dependencies locally in the host machine.
+The fashionable setup. PHP 8.1 as PHP-FPM reverse proxied by NGINX and MariaDB as database. All in separate containers. Current directory mounted into webserver so code changes can be seen immediately. This requires you to install Composer dependencies locally in the host machine.
 
 ```
 $ git clone https://github.com/tuupola/slim-docker.git
 $ cd slim-docker
-$ git checkout php-fpm-nginx-alpine
+$ git checkout alpine-nginx-phpfpm
 $ composer install
 $ docker compose build
 $ docker compose up
@@ -14,7 +14,7 @@ $ docker compose up
 Verify that the [basic route](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L43-L51) is working.
 
 ```
-$ curl --include localhost
+$ curl -ipv4 --include localhost
 HTTP/1.1 200 OK
 Server: nginx/1.23.2
 Date: Thu, 08 Dec 2022 09:38:50 GMT
@@ -25,7 +25,7 @@ X-Powered-By: PHP/8.1.13
 
 Hello world!
 
-$ curl --include localhost/mars
+$ curl -ipv4 --include localhost/mars
 HTTP/1.1 200 OK
 Server: nginx/1.23.2
 Date: Thu, 08 Dec 2022 09:39:22 GMT
@@ -40,7 +40,7 @@ Hello mars!
 Verify you can [query the database](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L26-L41) successfully.
 
 ```
-$ curl --include localhost/cars
+$ curl -ipv4 --include localhost/cars
 HTTP/1.1 200 OK
 Server: nginx/1.23.2
 Date: Thu, 08 Dec 2022 09:39:43 GMT
@@ -55,7 +55,7 @@ Tesla Audi BMW
 Verify that [static files](https://github.com/tuupola/slim-docker/blob/apache-php/public/static.html) are being served.
 
 ```
-$ curl --include localhost/static.html
+$ curl -ipv4 --include localhost/static.html
 HTTP/1.1 200 OK
 Server: nginx/1.23.2
 Date: Thu, 08 Dec 2022 09:53:04 GMT
@@ -72,7 +72,7 @@ static
 You can also [dump the `$_SERVER`](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L17-L24) superglobal for debugging purposes.
 
 ```
-$ curl --include "localhost/server?foo=bar"
+$ curl -ipv4 --include "localhost/server?foo=bar"
 HTTP/1.1 200 OK
 Server: nginx/1.23.2
 Date: Thu, 08 Dec 2022 09:40:50 GMT
