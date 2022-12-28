@@ -1,13 +1,13 @@
 services:
-  nginx:
-    build:
-      context: ./docker/nginx
-    volumes:
-      - ./:/srv/www
-      - ./docker/nginx/etc/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+  caddy:
+    image: caddy:2.6
     ports:
-      - 80:80
-      - 443:443
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
+      - .:/srv/www
   fpm:
     build:
       context: ./docker/fpm

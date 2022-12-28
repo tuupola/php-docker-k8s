@@ -1,11 +1,11 @@
-# Slim + PHP-FPM + NGINX + MariaDB
+# Caddy + PHP-FPM + MariaDB
 
-The fashionable setup. PHP 8.1 as PHP-FPM reverse proxied by NGINX and MariaDB as database. All in separate containers. Current directory mounted into webserver so code changes can be seen immediately. This requires you to install Composer dependencies locally in the host machine.
+Modern simple setup. PHP 8.1 as PHP-FPM reverse proxied by Caddy and MariaDB as database. All in separate containers. Caddy handles TLS automatically. Current directory mounted into webserver so code changes can be seen immediately. This requires you to install Composer dependencies locally in the host machine.
 
 ```
 $ git clone https://github.com/tuupola/slim-docker.git
 $ cd slim-docker
-$ git checkout alpine-nginx-phpfpm
+$ git checkout caddy-phpfpm
 $ composer install
 $ docker compose build
 $ docker compose up
@@ -14,40 +14,50 @@ $ docker compose up
 Verify that the [basic route](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L43-L51) is working.
 
 ```
-$ curl -ipv4 --include localhost
-HTTP/1.1 200 OK
-Server: nginx/1.23.2
-Date: Thu, 08 Dec 2022 09:38:50 GMT
-Content-Type: text/html; charset=UTF-8
-Transfer-Encoding: chunked
-Connection: keep-alive
-X-Powered-By: PHP/8.1.13
+$ curl --ipv4 --include localhost
+HTTP/1.1 308 Permanent Redirect
+Connection: close
+Location: https://localhost/
+Server: Caddy
+Date: Wed, 28 Dec 2022 10:26:36 GMT
+Content-Length: 0
 
-Hello world!
+$ curl --ipv4 --include --insecure https://localhost
+HTTP/2 200
+alt-svc: h3=":443"; ma=2592000
+content-type: text/html; charset=UTF-8
+server: Caddy
+x-powered-by: PHP/8.1.13
+content-length: 12
+date: Wed, 28 Dec 2022 10:27:13 GMT
 
-$ curl -ipv4 --include localhost/mars
-HTTP/1.1 200 OK
-Server: nginx/1.23.2
-Date: Thu, 08 Dec 2022 09:39:22 GMT
-Content-Type: text/html; charset=UTF-8
-Transfer-Encoding: chunked
-Connection: keep-alive
-X-Powered-By: PHP/8.1.13
+Hello world!%
+
+
+$ curl --ipv4 --include --insecure https://localhost/mars
+HTTP/2 200
+alt-svc: h3=":443"; ma=2592000
+content-type: text/html; charset=UTF-8
+server: Caddy
+x-powered-by: PHP/8.1.13
+content-length: 11
+date: Wed, 28 Dec 2022 10:29:47 GMT
 
 Hello mars!
 ```
 
 Verify you can [query the database](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L26-L41) successfully.
 
+
 ```
-$ curl -ipv4 --include localhost/cars
-HTTP/1.1 200 OK
-Server: nginx/1.23.2
-Date: Thu, 08 Dec 2022 09:39:43 GMT
-Content-Type: text/html; charset=UTF-8
-Transfer-Encoding: chunked
-Connection: keep-alive
-X-Powered-By: PHP/8.1.13
+$ curl --ipv4 --include --insecure https://localhost/cars
+HTTP/2 200
+alt-svc: h3=":443"; ma=2592000
+content-type: text/html; charset=UTF-8
+server: Caddy
+x-powered-by: PHP/8.1.13
+content-length: 15
+date: Wed, 28 Dec 2022 10:31:46 GMT
 
 Tesla Audi BMW
 ```
@@ -55,16 +65,15 @@ Tesla Audi BMW
 Verify that [static files](https://github.com/tuupola/slim-docker/blob/apache-php/public/static.html) are being served.
 
 ```
-$ curl -ipv4 --include localhost/static.html
-HTTP/1.1 200 OK
-Server: nginx/1.23.2
-Date: Thu, 08 Dec 2022 09:53:04 GMT
-Content-Type: text/html
-Content-Length: 7
-Last-Modified: Thu, 08 Dec 2022 09:52:52 GMT
-Connection: keep-alive
-ETag: "6391b3f4-7"
-Accept-Ranges: bytes
+$ curl --ipv4 --include --insecure https://localhost/static.html
+accept-ranges: bytes
+alt-svc: h3=":443"; ma=2592000
+content-type: text/html; charset=utf-8
+etag: "rnc56y7"
+last-modified: Fri, 23 Dec 2022 08:35:22 GMT
+server: Caddy
+content-length: 7
+date: Wed, 28 Dec 2022 10:32:26 GMT
 
 static
 ```
@@ -72,17 +81,17 @@ static
 You can also [dump the `$_SERVER`](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L17-L24) superglobal for debugging purposes.
 
 ```
-$ curl -ipv4 --include "localhost/server?foo=bar"
-HTTP/1.1 200 OK
-Server: nginx/1.23.2
-Date: Thu, 08 Dec 2022 09:40:50 GMT
-Content-Type: text/html; charset=UTF-8
-Transfer-Encoding: chunked
-Connection: keep-alive
-X-Powered-By: PHP/8.1.13
+curl --ipv4 --include --insecure "https://localhost/server?foo=bar"
+HTTP/2 200
+alt-svc: h3=":443"; ma=2592000
+content-type: text/html; charset=UTF-8
+server: Caddy
+x-powered-by: PHP/8.1.13
+content-length: 2207
+date: Wed, 28 Dec 2022 10:32:57 GMT
 
 array (
-  'HOSTNAME' => '45fa93f55fb2',
+  'HOSTNAME' => '6393933bcc51',
   'PHP_INI_DIR' => '/usr/local/etc/php',
   'SHLVL' => '1',
   'HOME' => '/home/www-data',
@@ -99,31 +108,40 @@ array (
   'PHP_SHA256' => 'b15ef0ccdd6760825604b3c4e3e73558dcf87c75ef1d68ef4289d8fd261ac856',
   'USER' => 'www-data',
   'HTTP_ACCEPT' => '*/*',
-  'HTTP_USER_AGENT' => 'curl/7.82.0',
-  'HTTP_HOST' => 'localhost',
-  'REDIRECT_STATUS' => '200',
-  'SERVER_NAME' => 'localhost',
-  'SERVER_PORT' => '80',
-  'SERVER_ADDR' => '172.29.0.3',
-  'REMOTE_PORT' => '33554',
-  'REMOTE_ADDR' => '172.29.0.1',
-  'SERVER_SOFTWARE' => 'nginx/1.23.2',
-  'GATEWAY_INTERFACE' => 'CGI/1.1',
-  'REQUEST_SCHEME' => 'http',
-  'SERVER_PROTOCOL' => 'HTTP/1.1',
-  'DOCUMENT_ROOT' => '/srv/www/public',
-  'DOCUMENT_URI' => '/index.php',
-  'REQUEST_URI' => '/server?foo=bar',
-  'SCRIPT_NAME' => '/index.php',
-  'CONTENT_LENGTH' => '',
-  'CONTENT_TYPE' => '',
+  'SERVER_SOFTWARE' => 'Caddy/v2.6.2',
   'REQUEST_METHOD' => 'GET',
+  'SSL_CIPHER' => 'TLS_AES_128_GCM_SHA256',
+  'SERVER_PROTOCOL' => 'HTTP/2.0',
+  'REMOTE_USER' => '',
   'QUERY_STRING' => 'foo=bar',
+  'GATEWAY_INTERFACE' => 'CGI/1.1',
+  'HTTP_X_FORWARDED_FOR' => '172.18.0.1',
+  'HTTP_USER_AGENT' => 'curl/7.82.0',
+  'HTTP_X_FORWARDED_HOST' => 'localhost',
+  'HTTPS' => 'on',
+  'SERVER_NAME' => 'localhost',
+  'REQUEST_SCHEME' => 'https',
+  'REMOTE_IDENT' => '',
+  'SERVER_PORT' => '443',
+  'SCRIPT_NAME' => '/index.php',
   'SCRIPT_FILENAME' => '/srv/www/public/index.php',
+  'HTTP_X_FORWARDED_PROTO' => 'https',
+  'DOCUMENT_ROOT' => '/srv/www/public',
+  'SSL_PROTOCOL' => 'TLSv1.3',
+  'HTTP_HOST' => 'localhost',
+  'REMOTE_HOST' => '172.18.0.1',
+  'CONTENT_LENGTH' => '0',
+  'AUTH_TYPE' => '',
+  'REQUEST_URI' => '/server?foo=bar',
+  'DOCUMENT_URI' => '/index.php',
+  'REMOTE_PORT' => '33728',
+  'REMOTE_ADDR' => '172.18.0.1',
+  'PATH_INFO' => '',
+  'CONTENT_TYPE' => '',
   'FCGI_ROLE' => 'RESPONDER',
   'PHP_SELF' => '/index.php',
-  'REQUEST_TIME_FLOAT' => 1670492450.049713,
-  'REQUEST_TIME' => 1670492450,
+  'REQUEST_TIME_FLOAT' => 1672223577.765711,
+  'REQUEST_TIME' => 1672223577,
   'argv' =>
   array (
     0 => 'foo=bar',
