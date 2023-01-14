@@ -5,7 +5,6 @@ Caddy as a reverse proxy in front of PHP 8.1 as an Apache module and MariaDB as 
 ```
 $ git clone https://github.com/tuupola/slim-docker.git
 $ cd slim-docker/caddy-apache
-$ git checkout caddy-apache-php
 $ composer install
 ```
 
@@ -15,6 +14,11 @@ You can either run with docker compose for development.
 $ docker compose build
 $ docker compose up
 ```
+
+Or as a docker stack which is a more production like setup. The stack has three instances of PHP 8.1 as an Apache module load balanced by Caddy. Single MariaDB instance also in the swarm.
+
+$ docker compose build
+$ docker stack deploy -c stack.yaml slim
 
 Verify that the [basic route](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L43-L51) is working. Caddy automatically uses TLS.
 
