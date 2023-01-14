@@ -1,0 +1,23 @@
+services:
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./:/srv/www
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 80:80
+      - 443:443
+  fpm:
+    build:
+      context: ./docker/fpm
+    volumes:
+      - ./:/srv/www
+  mariadb:
+    image: mariadb:latest
+    environment:
+      - MYSQL_DATABASE=example
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=secret
+    volumes:
+      - ./docker/mariadb/data.sql:/docker-entrypoint-initdb.d/data.sql
