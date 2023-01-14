@@ -4,11 +4,22 @@ The simplest possible development setup. PHP 8.1 as Apache an module and MariaDB
 
 ```
 $ git clone https://github.com/tuupola/slim-docker.git
-$ cd slim-docker
-$ git checkout apache-php
+$ cd slim-docker/apache-php
 $ composer install
+```
+
+You can either run with docker compose for development.
+
+```
 $ docker compose build
 $ docker compose up
+```
+
+Or as a docker stack which is a more production like setup. The stack has instances of PHP 8.1 as an Apache module load balanced by the swarm routing mesh. Single MariaDB instance also in the swarm.
+
+```
+$ docker compose build
+$ docker stack deploy -c stack.yaml slim
 ```
 
 Verify that the [basic route](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L43-L51) is working.
