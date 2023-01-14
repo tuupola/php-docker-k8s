@@ -4,7 +4,7 @@ The simplest possible development setup. PHP 8.1 as Apache an module and MariaDB
 
 ```
 $ git clone https://github.com/tuupola/slim-docker.git
-$ cd slim-docker/apache-php
+$ cd slim-docker/apache
 $ composer install
 ```
 
