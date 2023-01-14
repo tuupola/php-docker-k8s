@@ -4,9 +4,11 @@ Modern simple setup. PHP 8.1 as PHP-FPM reverse proxied by Caddy and MariaDB as 
 
 ```
 $ git clone https://github.com/tuupola/slim-docker.git
-$ cd slim-docker
-$ git checkout caddy-phpfpm
+$ cd slim-docker/caddy-phpfpm
 $ composer install
+```
+
+```
 $ docker compose build
 $ docker compose up
 ```
