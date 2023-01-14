@@ -8,9 +8,21 @@ $ cd slim-docker/caddy-phpfpm
 $ composer install
 ```
 
+You can either run with docker compose for development.
+
+
 ```
 $ docker compose build
 $ docker compose up
+```
+
+Or as a docker stack which is a more production like setup. The stack has three instances of PHP 8.1 as PHP-FPM load balanced by Caddy. Single MariaDB instance also in the swarm.
+
+```
+$ docker swarm init
+$ docker compose build
+$ docker build -t slim-docker-caddy docker/caddy/
+$ docker stack deploy -c stack.yaml slim
 ```
 
 Verify that the [basic route](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L43-L51) is working.
@@ -19,12 +31,12 @@ Verify that the [basic route](https://github.com/tuupola/slim-docker/blob/apache
 $ curl --ipv4 --include localhost
 HTTP/1.1 308 Permanent Redirect
 Connection: close
-Location: https://localhost/
+Location: https://example.localhost/
 Server: Caddy
 Date: Wed, 28 Dec 2022 10:26:36 GMT
 Content-Length: 0
 
-$ curl --ipv4 --include --insecure https://localhost
+$ curl --ipv4 --include --insecure https://example.localhost
 HTTP/2 200
 alt-svc: h3=":443"; ma=2592000
 content-type: text/html; charset=UTF-8
@@ -36,7 +48,7 @@ date: Wed, 28 Dec 2022 10:27:13 GMT
 Hello world!%
 
 
-$ curl --ipv4 --include --insecure https://localhost/mars
+$ curl --ipv4 --include --insecure https://example.localhost/mars
 HTTP/2 200
 alt-svc: h3=":443"; ma=2592000
 content-type: text/html; charset=UTF-8
@@ -52,7 +64,7 @@ Verify you can [query the database](https://github.com/tuupola/slim-docker/blob/
 
 
 ```
-$ curl --ipv4 --include --insecure https://localhost/cars
+$ curl --ipv4 --include --insecure https://example.localhost/cars
 HTTP/2 200
 alt-svc: h3=":443"; ma=2592000
 content-type: text/html; charset=UTF-8
@@ -67,7 +79,7 @@ Tesla Audi BMW
 Verify that [static files](https://github.com/tuupola/slim-docker/blob/apache-php/public/static.html) are being served.
 
 ```
-$ curl --ipv4 --include --insecure https://localhost/static.html
+$ curl --ipv4 --include --insecure https://example.localhost/static.html
 accept-ranges: bytes
 alt-svc: h3=":443"; ma=2592000
 content-type: text/html; charset=utf-8
@@ -83,7 +95,7 @@ static
 You can also [dump the `$_SERVER`](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L17-L24) superglobal for debugging purposes.
 
 ```
-curl --ipv4 --include --insecure "https://localhost/server?foo=bar"
+curl --ipv4 --include --insecure "https://example.localhost/server?foo=bar"
 HTTP/2 200
 alt-svc: h3=":443"; ma=2592000
 content-type: text/html; charset=UTF-8

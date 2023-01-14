@@ -1,4 +1,4 @@
-localhost {
+example.localhost {
 	root * /srv/www/public
 	encode zstd gzip
 	php_fastcgi fpm:9000

@@ -1,0 +1,42 @@
+version: "3.9"
+services:
+  caddy:
+    # Locally built image. In production you would fetch this
+    # from a registry such as Docker Hub.
+    image: slim-docker-caddy
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./:/srv/www
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      # Make sure Caddy uses the correct network for service discovery.
+      # https://github.com/lucaslorentz/caddy-docker-proxy/issues/207
+      - CADDY_INGRESS_NETWORKS=slim_default
+  fpm:
+    # Locally built image. In production you would fetch this
+    # from a registry such as Docker Hub.
+    image: slim-docker-fpm
+    volumes:
+      - ./:/srv/www
+    deploy:
+      replicas: 3
+      # Do not create Docker virtual IP endpoint since Caddy is used
+      # for load balancing.
+      endpoint_mode: dnsrr
+      labels:
+        caddy: example.localhost
+        caddy.root: "* /srv/www/public"
+        caddy.file_server:
+        caddy.php_fastcgi: "{{upstreams 9000}}"
+  mariadb:
+    image: mariadb:latest
+    environment:
+      - MYSQL_DATABASE=example
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=secret
+    volumes:
+      - ./docker/mariadb/data.sql:/docker-entrypoint-initdb.d/data.sql
