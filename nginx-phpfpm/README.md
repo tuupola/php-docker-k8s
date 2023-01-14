@@ -4,9 +4,13 @@ The fashionable setup. PHP 8.1 as PHP-FPM reverse proxied by NGINX and MariaDB a
 
 ```
 $ git clone https://github.com/tuupola/slim-docker.git
-$ cd slim-docker
-$ git checkout alpine-nginx-phpfpm
+$ cd slim-docker/nginx-phpfpm
 $ composer install
+```
+
+You can either run with docker compose for development.
+
+```
 $ docker compose build
 $ docker compose up
 ```
