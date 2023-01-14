@@ -15,7 +15,7 @@ $ docker compose build
 $ docker compose up
 ```
 
-Or as a docker stack which is a more production like setup. The stack has instances of PHP 8.1 as an Apache module load balanced by the swarm routing mesh. Single MariaDB instance also in the swarm.
+Or as a docker stack which is a more production like setup. The stack has instances of PHP 8.1 as an Apache module load balanced by Caddy. Single MariaDB instance also in the swarm.
 
 ```
 $ docker compose build
