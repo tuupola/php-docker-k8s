@@ -4,9 +4,14 @@ Caddy as a reverse proxy in front of PHP 8.1 as an Apache module and MariaDB as 
 
 ```
 $ git clone https://github.com/tuupola/slim-docker.git
-$ cd slim-docker
+$ cd slim-docker/caddy-apache
 $ git checkout caddy-apache-php
 $ composer install
+```
+
+You can either run with docker compose for development.
+
+```
 $ docker compose build
 $ docker compose up
 ```
