@@ -20,7 +20,7 @@ Or as a docker stack which is a more production like setup. The stack has instan
 ```
 $ docker compose build
 $ docker stack deploy -c stack.yaml slim
-
+```
 
 Verify that the [basic route](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L43-L51) is working. Caddy automatically uses TLS.
 
