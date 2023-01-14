@@ -16,7 +16,7 @@ $ docker compose build
 $ docker compose up
 ```
 
-Or as a docker stack which is a more production like setup. The stack has three instances of PHP 8.1 as PHP-FPM load balanced by Caddy. Single MariaDB instance also in the swarm.
+Or as a docker stack which is a more production like setup. The stack has three instances of PHP 8.1 as PHP-FPM load balanced by Caddy.
 
 ```
 $ docker swarm init
@@ -28,7 +28,7 @@ $ docker stack deploy -c stack.yaml slim
 Verify that the [basic route](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L43-L51) is working.
 
 ```
-$ curl --ipv4 --include localhost
+$ curl --ipv4 --include example.localhost
 HTTP/1.1 308 Permanent Redirect
 Connection: close
 Location: https://example.localhost/
@@ -131,7 +131,7 @@ array (
   'GATEWAY_INTERFACE' => 'CGI/1.1',
   'HTTP_X_FORWARDED_FOR' => '172.18.0.1',
   'HTTP_USER_AGENT' => 'curl/7.82.0',
-  'HTTP_X_FORWARDED_HOST' => 'localhost',
+  'HTTP_X_FORWARDED_HOST' => 'example.localhost',
   'HTTPS' => 'on',
   'SERVER_NAME' => 'localhost',
   'REQUEST_SCHEME' => 'https',
