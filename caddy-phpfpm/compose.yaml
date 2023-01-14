@@ -1,0 +1,24 @@
+services:
+  caddy:
+    image: caddy:2.6
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
+      - .:/srv/www
+  fpm:
+    build:
+      context: ./docker/fpm
+    volumes:
+      - ./:/srv/www
+  mariadb:
+    image: mariadb:latest
+    environment:
+      - MYSQL_DATABASE=example
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=secret
+    volumes:
+      - ./docker/mariadb/data.sql:/docker-entrypoint-initdb.d/data.sql
