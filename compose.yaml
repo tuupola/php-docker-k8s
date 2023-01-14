@@ -1,10 +1,9 @@
 services:
   nginx:
-    build:
-      context: ./docker/nginx
+    image: nginx:alpine
     volumes:
       - ./:/srv/www
-      - ./docker/nginx/etc/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     ports:
       - 80:80
       - 443:443
