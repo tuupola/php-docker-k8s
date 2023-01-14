@@ -7,8 +7,21 @@ $ git clone https://github.com/tuupola/slim-docker.git
 $ cd slim-docker
 $ git checkout traefik-apache-php
 $ composer install
+```
+
+You can either run with docker compose for development.
+
+```
 $ docker compose build
 $ docker compose up
+```
+
+Or as a docker stack which is a more production like setup. The stack has three instances of PHP 8.1 as an Apache module load balanced by Traefik.
+
+```
+$ docker swarm init
+$ docker compose build
+$ docker stack deploy -c stack.yaml slim
 ```
 
 Verify you can access the [dashboard](http://traefik.localhost/dashboard/).
