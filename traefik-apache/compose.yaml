@@ -1,0 +1,44 @@
+services:
+  traefik:
+    image: traefik:2.9
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    command:
+      - --providers.docker
+      - --providers.docker.exposedbydefault=false
+      - --entryPoints.open.address=:80
+      - --entryPoints.secure.address=:443
+      # Force http to https redirect
+      - --entrypoints.open.http.redirections.entryPoint.to=secure
+      - --entrypoints.open.http.redirections.entryPoint.scheme=https
+      - --api
+      - --accesslog
+      - --log
+    labels:
+      # Make Traefik dashboard available via Traefik.
+      - traefik.enable=true
+      - traefik.http.routers.traefik.rule=Host(`traefik.localhost`)
+      - traefik.http.routers.traefik.service=api@internal
+      - traefik.http.routers.traefik.tls=true
+  apache:
+    build:
+      context: ./docker/apache
+    volumes:
+      - ./:/srv/www
+    labels:
+      # Make Apache available via Traefik.
+      - traefik.enable=true
+      - traefik.http.routers.apache.rule=Host(`apache.localhost`)
+      - traefik.http.routers.apache.tls=true
+  mariadb:
+    image: mariadb:latest
+    environment:
+      - MYSQL_DATABASE=example
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=secret
+    volumes:
+      - ./docker/mariadb/data.sql:/docker-entrypoint-initdb.d/data.sql
