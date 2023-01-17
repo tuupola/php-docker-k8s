@@ -1,6 +1,6 @@
 # Slim Framework with Docker
 
-Examples how to run [Slim Framework](https://www.slimframework.com/) with docker. Subfolders have their own README.
+Examples how to run [Slim Framework](https://www.slimframework.com/) with Docker. Subfolders have their own more specific README.
 
 ## Apache + MariaDB
 
