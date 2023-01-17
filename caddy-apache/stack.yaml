@@ -26,7 +26,7 @@ services:
       # for load balancing.
       endpoint_mode: dnsrr
     labels:
-      caddy: apache.localhost
+      caddy: example.localhost
       caddy.reverse_proxy: "{{upstreams 80}}"
   mariadb:
     image: mariadb:latest
