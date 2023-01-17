@@ -15,6 +15,14 @@ $ docker compose build
 $ docker compose up
 ```
 
+Or as a docker stack which is a more production like setup. The stack has three instances of PHP 8.1 as PHP-FPM reverse proxied by NGINX load balanced by the swarm routing mesh. Single MariaDB instance also in the swarm
+
+```
+$ docker swarm init
+$ docker compose build
+$ docker stack deploy -c stack.yaml slim
+```
+
 Verify that the [basic route](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L43-L51) is working.
 
 ```
