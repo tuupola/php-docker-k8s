@@ -40,7 +40,7 @@ services:
       labels:
         # Make Apache available via Traefik.
         - traefik.enable=true
-        - traefik.http.routers.apache.rule=Host(`apache.localhost`)
+        - traefik.http.routers.apache.rule=Host(`example.localhost`)
         - traefik.http.routers.apache.tls=true
         - traefik.http.services.apache.loadbalancer.server.port=80
   mariadb:

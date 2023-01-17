@@ -4,8 +4,7 @@ Traefik reverse proxy in front of PHP 8.1 as Apache an module and MariaDB as dat
 
 ```
 $ git clone https://github.com/tuupola/slim-docker.git
-$ cd slim-docker
-$ git checkout traefik-apache-php
+$ cd slim-docker/traefik-apache
 $ composer install
 ```
 
@@ -33,10 +32,11 @@ Location: https://traefik.localhost/
 Date: Fri, 23 Dec 2022 09:49:19 GMT
 Content-Length: 17
 Content-Type: text/plain; charset=utf-8
+```
 
 Moved Permanently
 
-
+```
 $ curl --ipv4 --include --insecure https://traefik.localhost
 HTTP/2 302
 content-type: text/html; charset=utf-8
@@ -48,10 +48,10 @@ date: Fri, 23 Dec 2022 09:50:11 GMT
 
 ```
 
-Verify that the [basic route](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L43-L51) is working.
+Verify that the basic route is working.
 
 ```
-$ curl --ipv4 --include --insecure https://apache.localhost
+$ curl --ipv4 --include --insecure https://example.localhost
 HTTP/2 200
 content-type: text/html; charset=UTF-8
 date: Fri, 23 Dec 2022 09:51:33 GMT
@@ -61,7 +61,7 @@ content-length: 12
 
 Hello world!
 
-$ curl --ipv4 --include --insecure https://apache.localhost/mars
+$ curl --ipv4 --include --insecure https://example.localhost/mars
 HTTP/2 200
 content-type: text/html; charset=UTF-8
 date: Fri, 23 Dec 2022 09:52:55 GMT
@@ -72,10 +72,10 @@ content-length: 11
 Hello mars!
 ```
 
-Verify you can [query the database](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L26-L41) successfully.
+Verify you can query the database successfully.
 
 ```
-$ curl --ipv4 --include --insecure https://apache.localhost/cars
+$ curl --ipv4 --include --insecure https://example.localhost/cars
 HTTP/2 200
 content-type: text/html; charset=UTF-8
 date: Fri, 23 Dec 2022 09:53:14 GMT
@@ -86,10 +86,10 @@ content-length: 15
 Tesla Audi BMW
 ```
 
-Verify that [static files](https://github.com/tuupola/slim-docker/blob/apache-php/public/static.html) are being served.
+Verify that static files are being served.
 
 ```
-$ curl --ipv4 --include --insecure https://apache.localhost/static.html
+$ curl --ipv4 --include --insecure https://example.localhost/static.html
 HTTP/2 200
 accept-ranges: bytes
 content-type: text/html
@@ -102,10 +102,10 @@ content-length: 7
 static
 ```
 
-You can also [dump the `$_SERVER`](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L17-L24) superglobal for debugging purposes.
+You can also dump the `$_SERVER` superglobal for debugging purposes.
 
 ```
-$ curl --ipv4 --include --insecure "https://apache.localhost/server?foo=bar"
+$ curl --ipv4 --include --insecure "https://example.localhost/server?foo=bar"
 HTTP/2 200
 content-type: text/html; charset=UTF-8
 date: Fri, 23 Dec 2022 09:56:00 GMT
@@ -115,21 +115,21 @@ x-powered-by: PHP/8.1.13
 
 array (
   'REDIRECT_STATUS' => '200',
-  'HTTP_HOST' => 'apache.localhost',
+  'HTTP_HOST' => 'example.localhost',
   'HTTP_USER_AGENT' => 'curl/7.82.0',
   'HTTP_ACCEPT' => '*/*',
   'HTTP_X_FORWARDED_FOR' => '172.18.0.1',
-  'HTTP_X_FORWARDED_HOST' => 'apache.localhost',
+  'HTTP_X_FORWARDED_HOST' => 'example.localhost',
   'HTTP_X_FORWARDED_PORT' => '443',
   'HTTP_X_FORWARDED_PROTO' => 'https',
   'HTTP_X_FORWARDED_SERVER' => 'cd59b246c046',
   'HTTP_X_REAL_IP' => '172.18.0.1',
   'HTTP_ACCEPT_ENCODING' => 'gzip',
   'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
-  'SERVER_SIGNATURE' => '<address>Apache/2.4.54 (Debian) Server at apache.localhost Port 80</address>
+  'SERVER_SIGNATURE' => '<address>Apache/2.4.54 (Debian) Server at example.localhost Port 80</address>
 ',
   'SERVER_SOFTWARE' => 'Apache/2.4.54 (Debian)',
-  'SERVER_NAME' => 'apache.localhost',
+  'SERVER_NAME' => 'example.localhost',
   'SERVER_ADDR' => '172.18.0.2',
   'SERVER_PORT' => '80',
   'REMOTE_ADDR' => '172.18.0.3',
