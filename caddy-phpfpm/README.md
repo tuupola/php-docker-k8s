@@ -10,7 +10,6 @@ $ composer install
 
 You can either run with docker compose for development.
 
-
 ```
 $ docker compose build
 $ docker compose up
@@ -25,7 +24,7 @@ $ docker build -t slim-docker-caddy docker/caddy/
 $ docker stack deploy -c stack.yaml slim
 ```
 
-Verify that the [basic route](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L43-L51) is working.
+Verify that the basic route is working.
 
 ```
 $ curl --ipv4 --include example.localhost
@@ -60,8 +59,7 @@ date: Wed, 28 Dec 2022 10:29:47 GMT
 Hello mars!
 ```
 
-Verify you can [query the database](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L26-L41) successfully.
-
+Verify you can query the database successfully.
 
 ```
 $ curl --ipv4 --include --insecure https://example.localhost/cars
@@ -76,7 +74,7 @@ date: Wed, 28 Dec 2022 10:31:46 GMT
 Tesla Audi BMW
 ```
 
-Verify that [static files](https://github.com/tuupola/slim-docker/blob/apache-php/public/static.html) are being served.
+Verify that static files are being served.
 
 ```
 $ curl --ipv4 --include --insecure https://example.localhost/static.html
@@ -92,7 +90,7 @@ date: Wed, 28 Dec 2022 10:32:26 GMT
 static
 ```
 
-You can also [dump the `$_SERVER`](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L17-L24) superglobal for debugging purposes.
+You can also dump the `$_SERVER` superglobal for debugging purposes.
 
 ```
 curl --ipv4 --include --insecure "https://example.localhost/server?foo=bar"

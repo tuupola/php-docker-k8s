@@ -1,6 +1,6 @@
-# Slim + Apache + MariaDB
+# Apache + MariaDB
 
-The simplest possible development setup. PHP 8.1 as Apache an module and MariaDB in another container. Current directory mounted into webserver so code changes can be seen immediately. This requires you to install Composer dependencies locally in the host machine.
+The simplest possible development setup. PHP 8.1 as Apache an module and MariaDB in separate container. Current directory mounted into webserver so code changes can be seen immediately. This requires you to install Composer dependencies locally in the host machine.
 
 ```
 $ git clone https://github.com/tuupola/slim-docker.git
@@ -15,17 +15,17 @@ $ docker compose build
 $ docker compose up
 ```
 
-Or as a docker stack which is a more production like setup. The stack has instances of PHP 8.1 as an Apache module load balanced by the swarm routing mesh. Single MariaDB instance also in the swarm.
+Or as a docker stack which is a more production like setup. The stack has three instances of PHP 8.1 as an Apache module load balanced by the swarm routing mesh. Single MariaDB instance also in the swarm.
 
 ```
 $ docker compose build
 $ docker stack deploy -c stack.yaml slim
 ```
 
-Verify that the [basic route](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L43-L51) is working.
+Verify that the basic route is working.
 
 ```
-$ curl --ipv4 --include localhost
+$ curl --ipv4 --include example.localhost
 HTTP/1.1 200 OK
 Date: Thu, 08 Dec 2022 09:00:54 GMT
 Server: Apache/2.4.54 (Debian)
@@ -35,7 +35,7 @@ Content-Type: text/html; charset=UTF-8
 
 Hello world!
 
-$ curl --ipv4 --include localhost/mars
+$ curl --ipv4 --include example.localhost/mars
 HTTP/1.1 200 OK
 Date: Thu, 08 Dec 2022 09:01:29 GMT
 Server: Apache/2.4.54 (Debian)
@@ -46,10 +46,10 @@ Content-Type: text/html; charset=UTF-8
 Hello mars!
 ```
 
-Verify you can [query the database](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L26-L41) successfully.
+Verify you can query the database successfully.
 
 ```
-$ curl --ipv4 --include localhost/cars
+$ curl --ipv4 --include example.localhost/cars
 HTTP/1.1 200 OK
 Date: Thu, 08 Dec 2022 09:03:06 GMT
 Server: Apache/2.4.54 (Debian)
@@ -60,10 +60,10 @@ Content-Type: text/html; charset=UTF-8
 Tesla Audi BMW
 ```
 
-Verify that [static files](https://github.com/tuupola/slim-docker/blob/apache-php/public/static.html) are being served.
+Verify that the static files are being served.
 
 ```
-$ curl --ipv4 --include localhost/static.html
+$ curl --ipv4 --include example.localhost/static.html
 HTTP/1.1 200 OK
 Date: Thu, 08 Dec 2022 09:10:43 GMT
 Server: Apache/2.4.54 (Debian)
@@ -76,10 +76,10 @@ Content-Type: text/html
 static
 ```
 
-You can also [dump the `$_SERVER`](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L17-L24) superglobal for debugging purposes.
+You can also dump the `$_SERVER` superglobal for debugging purposes.
 
 ```
-curl --ipv4 --include "localhost/server?foo=bar"
+$ curl --ipv4 --include "example.localhost/server?foo=bar"
 HTTP/1.1 200 OK
 Date: Thu, 08 Dec 2022 09:11:20 GMT
 Server: Apache/2.4.54 (Debian)
@@ -90,14 +90,14 @@ Content-Type: text/html; charset=UTF-8
 
 array (
   'REDIRECT_STATUS' => '200',
-  'HTTP_HOST' => 'localhost',
+  'HTTP_HOST' => 'example.localhost',
   'HTTP_USER_AGENT' => 'curl/7.82.0',
   'HTTP_ACCEPT' => '*/*',
   'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
-  'SERVER_SIGNATURE' => '<address>Apache/2.4.54 (Debian) Server at localhost Port 80</address>
+  'SERVER_SIGNATURE' => '<address>Apache/2.4.54 (Debian) Server at example.localhost Port 80</address>
 ',
   'SERVER_SOFTWARE' => 'Apache/2.4.54 (Debian)',
-  'SERVER_NAME' => 'localhost',
+  'SERVER_NAME' => 'example.localhost',
   'SERVER_ADDR' => '172.29.0.2',
   'SERVER_PORT' => '80',
   'REMOTE_ADDR' => '172.29.0.1',

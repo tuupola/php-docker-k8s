@@ -1,4 +1,4 @@
-# Slim + PHP-FPM + NGINX + MariaDB
+# NGING + PHP-FPM + MariaDB
 
 The fashionable setup. PHP 8.1 as PHP-FPM reverse proxied by NGINX and MariaDB as database. All in separate containers. Current directory mounted into webserver so code changes can be seen immediately. This requires you to install Composer dependencies locally in the host machine.
 
@@ -23,10 +23,10 @@ $ docker compose build
 $ docker stack deploy -c stack.yaml slim
 ```
 
-Verify that the [basic route](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L43-L51) is working.
+Verify that the basic route is working.
 
 ```
-$ curl --ipv4 --include localhost
+$ curl --ipv4 --include example.localhost
 HTTP/1.1 200 OK
 Server: nginx/1.23.2
 Date: Thu, 08 Dec 2022 09:38:50 GMT
@@ -37,7 +37,7 @@ X-Powered-By: PHP/8.1.13
 
 Hello world!
 
-$ curl --ipv4 --include localhost/mars
+$ curl --ipv4 --include example.localhost/mars
 HTTP/1.1 200 OK
 Server: nginx/1.23.2
 Date: Thu, 08 Dec 2022 09:39:22 GMT
@@ -49,10 +49,10 @@ X-Powered-By: PHP/8.1.13
 Hello mars!
 ```
 
-Verify you can [query the database](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L26-L41) successfully.
+Verify you can query the database successfully.
 
 ```
-$ curl --ipv4 --include localhost/cars
+$ curl --ipv4 --include example.localhost/cars
 HTTP/1.1 200 OK
 Server: nginx/1.23.2
 Date: Thu, 08 Dec 2022 09:39:43 GMT
@@ -64,10 +64,10 @@ X-Powered-By: PHP/8.1.13
 Tesla Audi BMW
 ```
 
-Verify that [static files](https://github.com/tuupola/slim-docker/blob/apache-php/public/static.html) are being served.
+Verify that static files are being served.
 
 ```
-$ curl --ipv4 --include localhost/static.html
+$ curl --ipv4 --include example.localhost/static.html
 HTTP/1.1 200 OK
 Server: nginx/1.23.2
 Date: Thu, 08 Dec 2022 09:53:04 GMT
@@ -81,10 +81,10 @@ Accept-Ranges: bytes
 static
 ```
 
-You can also [dump the `$_SERVER`](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L17-L24) superglobal for debugging purposes.
+You can also dump the `$_SERVER` superglobal for debugging purposes.
 
 ```
-$ curl --ipv4 --include "localhost/server?foo=bar"
+$ curl --ipv4 --include "example.localhost/server?foo=bar"
 HTTP/1.1 200 OK
 Server: nginx/1.23.2
 Date: Thu, 08 Dec 2022 09:40:50 GMT
@@ -112,9 +112,9 @@ array (
   'USER' => 'www-data',
   'HTTP_ACCEPT' => '*/*',
   'HTTP_USER_AGENT' => 'curl/7.82.0',
-  'HTTP_HOST' => 'localhost',
+  'HTTP_HOST' => 'example.localhost',
   'REDIRECT_STATUS' => '200',
-  'SERVER_NAME' => 'localhost',
+  'SERVER_NAME' => 'example.localhost',
   'SERVER_PORT' => '80',
   'SERVER_ADDR' => '172.29.0.3',
   'REMOTE_PORT' => '33554',

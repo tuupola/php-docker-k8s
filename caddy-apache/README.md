@@ -1,4 +1,4 @@
-# Caddy + Slim + Apache + MariaDB
+# Caddy + Apache + MariaDB
 
 Caddy as a reverse proxy in front of PHP 8.1 as an Apache module and MariaDB as the database. All in separate containers. Current directory mounted into webserver so code changes can be seen immediately. This requires you to install Composer dependencies locally in the host machine.
 
@@ -22,18 +22,18 @@ $ docker compose build
 $ docker stack deploy -c stack.yaml slim
 ```
 
-Verify that the [basic route](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L43-L51) is working. Caddy automatically uses TLS.
+Verify that the basic route is working. Caddy automatically forces TLS.
 
 ```
-$ curl --ipv4 --include http://apache.localhost
+$ curl --ipv4 --include http://example.localhost
 HTTP/1.1 308 Permanent Redirect
 Connection: close
-Location: https://apache.localhost/
+Location: https://example.localhost/
 Server: Caddy
 Date: Tue, 13 Dec 2022 07:41:39 GMT
 Content-Length: 0
 
-$ curl --ipv4 --include --insecure https://apache.localhost
+$ curl --ipv4 --include --insecure https://example.localhost
 HTTP/2 200
 alt-svc: h3=":443"; ma=2592000
 content-type: text/html; charset=UTF-8
@@ -45,7 +45,7 @@ content-length: 12
 
 Hello world!
 
-$ curl --ipv4 --include --insecure https://apache.localhost/mars
+$ curl --ipv4 --include --insecure https://example.localhost/mars
 HTTP/2 200
 alt-svc: h3=":443"; ma=2592000
 content-type: text/html; charset=UTF-8
@@ -58,10 +58,10 @@ content-length: 11
 Hello mars!
 ```
 
-Verify you can [query the database](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L26-L41) successfully.
+Verify you can query the database successfully.
 
 ```
-$ curl --ipv4 --include --insecure https://apache.localhost/cars
+$ curl --ipv4 --include --insecure https://example.localhost/cars
 HTTP/2 200
 alt-svc: h3=":443"; ma=2592000
 content-type: text/html; charset=UTF-8
@@ -75,10 +75,10 @@ content-length: 15
 Tesla Audi BMW
 ```
 
-Verify that [static files](https://github.com/tuupola/slim-docker/blob/apache-php/public/static.html) are being served.
+Verify that the static files are being served.
 
 ```
-$ curl --ipv4 --include --insecure https://apache.localhost/static.html
+$ curl --ipv4 --include --insecure https://example.localhost/static.html
 HTTP/2 200
 accept-ranges: bytes
 alt-svc: h3=":443"; ma=2592000
@@ -93,10 +93,10 @@ content-length: 7
 static
 ```
 
-You can also [dump the `$_SERVER`](https://github.com/tuupola/slim-docker/blob/apache-php/app.php#L17-L24) superglobal for debugging purposes.
+You can also dump the `$_SERVER` superglobal for debugging purposes.
 
 ```
-$ curl --ipv4 --include --insecure "https://apache.localhost/server?foo=bar"
+$ curl --ipv4 --include --insecure "https://example.localhost/server?foo=bar"
 HTTP/2 200
 alt-svc: h3=":443"; ma=2592000
 content-type: text/html; charset=UTF-8
@@ -108,28 +108,28 @@ x-powered-by: PHP/8.1.13
 
 array (
   'REDIRECT_STATUS' => '200',
-  'HTTP_HOST' => 'apache.localhost',
+  'HTTP_HOST' => 'example.localhost',
   'HTTP_USER_AGENT' => 'curl/7.82.0',
   'HTTP_ACCEPT' => '*/*',
-  'HTTP_X_FORWARDED_FOR' => '192.168.96.1',
-  'HTTP_X_FORWARDED_HOST' => 'apache.localhost',
+  'HTTP_X_FORWARDED_FOR' => '172.21.0.1',
+  'HTTP_X_FORWARDED_HOST' => 'example.localhost',
   'HTTP_X_FORWARDED_PROTO' => 'https',
   'HTTP_ACCEPT_ENCODING' => 'gzip',
   'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
-  'SERVER_SIGNATURE' => '<address>Apache/2.4.54 (Debian) Server at apache.localhost Port 80</address>
+  'SERVER_SIGNATURE' => '<address>Apache/2.4.54 (Debian) Server at example.localhost Port 80</address>
 ',
   'SERVER_SOFTWARE' => 'Apache/2.4.54 (Debian)',
-  'SERVER_NAME' => 'apache.localhost',
-  'SERVER_ADDR' => '192.168.96.3',
+  'SERVER_NAME' => 'example.localhost',
+  'SERVER_ADDR' => '172.21.0.3',
   'SERVER_PORT' => '80',
-  'REMOTE_ADDR' => '192.168.96.4',
+  'REMOTE_ADDR' => '172.21.0.2',
   'DOCUMENT_ROOT' => '/srv/www/public',
   'REQUEST_SCHEME' => 'http',
   'CONTEXT_PREFIX' => '',
   'CONTEXT_DOCUMENT_ROOT' => '/srv/www/public',
   'SERVER_ADMIN' => 'webmaster@localhost',
   'SCRIPT_FILENAME' => '/srv/www/public/index.php',
-  'REMOTE_PORT' => '42382',
+  'REMOTE_PORT' => '59476',
   'REDIRECT_URL' => '/server',
   'REDIRECT_QUERY_STRING' => 'foo=bar',
   'GATEWAY_INTERFACE' => 'CGI/1.1',
@@ -139,8 +139,8 @@ array (
   'REQUEST_URI' => '/server?foo=bar',
   'SCRIPT_NAME' => '/index.php',
   'PHP_SELF' => '/index.php',
-  'REQUEST_TIME_FLOAT' => 1670917483.270563,
-  'REQUEST_TIME' => 1670917483,
+  'REQUEST_TIME_FLOAT' => 1673948267.53973,
+  'REQUEST_TIME' => 1673948267,
   'argv' =>
   array (
     0 => 'foo=bar',
