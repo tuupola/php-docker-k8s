@@ -9,9 +9,7 @@ services:
       - 80:80
       - 443:443
   fpm:
-    # Locally built image. In production you would fetch this
-    # from a registry such as Docker Hub.
-    image: nginx-phpfpm-fpm
+    image: ghcr.io/tuupola/php-fpm-example
     volumes:
       - ./:/srv/www
     deploy:

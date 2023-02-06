@@ -1,7 +1,8 @@
 version: "3"
 services:
   apache:
-    image: slim-docker-apache
+    # This is the same compose image but pushed to ghcr.
+    image: ghcr.io/tuupola/apache-php-example
     volumes:
       - ./:/srv/www
     ports:
