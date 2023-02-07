@@ -1,8 +1,9 @@
 services:
   apache:
     build:
-      context: ./docker/apache
+      context: .
     volumes:
+      # Use a bind mount for easy development.
       - ./:/srv/www
     ports:
       - 80:80

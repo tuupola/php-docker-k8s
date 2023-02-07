@@ -9,3 +9,6 @@ RUN a2enmod rewrite
 
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 RUN install-php-extensions pdo_mysql
+
+# Compose overrides this with a bind mount for easy dev.
+COPY ./ /srv/www/
