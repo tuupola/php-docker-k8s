@@ -9,7 +9,7 @@ services:
       - 443:443
   fpm:
     build:
-      context: ./docker/fpm
+      context: .
     volumes:
       - ./:/srv/www
   mariadb:
