@@ -15,8 +15,9 @@ services:
   apache:
     # This is the same compose image but pushed to ghcr.
     image: ghcr.io/tuupola/apache-php-example
-    volumes:
-      - ./:/srv/www
+    # Uncomment this if you want to dev with swarm.
+    # volumes:
+    #   - ./:/srv/www
     deploy:
       replicas: 3
       # Do not create Docker virtual IP endpoint since Caddy is used

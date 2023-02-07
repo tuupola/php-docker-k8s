@@ -8,8 +8,9 @@ services:
     command: caddy reverse-proxy --from example.localhost --to apache
   apache:
     build:
-      context: ./docker/apache
+      context: .
     volumes:
+      # Use a bind mount for easy development.
       - ./:/srv/www
   mariadb:
     image: mariadb:latest
