@@ -11,15 +11,20 @@ $ composer install
 You can either run with docker compose for development.
 
 ```
-$ docker compose build
-$ docker compose up
+$ docker compose up --build
 ```
 
 Or as a docker stack which is a more production like setup. The stack has three instances of PHP 8.1 as an Apache module load balanced by the swarm routing mesh. Single MariaDB instance also in the swarm.
 
 ```
-$ docker compose build
 $ docker stack deploy -c stack.yaml slim
+```
+
+Or as a Kubernetes deployment. This also has three instances of PHP 8.1 as an Apache module load balanced by Kubernetes. Single MariaDB instance also as an deployment. Use `kubectl` to find out the ip address of the load balancer and use that instead of `example.localhost` when testing.
+
+```
+$ kubectl apply -f deployment.yaml
+$ kubectl get service/slim
 ```
 
 Verify that the basic route is working.
