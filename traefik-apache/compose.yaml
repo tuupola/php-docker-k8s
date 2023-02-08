@@ -25,7 +25,7 @@ services:
       - traefik.http.routers.traefik.tls=true
   apache:
     build:
-      context: ./docker/apache
+      context: .
     volumes:
       - ./:/srv/www
     labels:

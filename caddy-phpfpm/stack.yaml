@@ -15,8 +15,9 @@ services:
       - CADDY_INGRESS_NETWORKS=slim_default
   fpm:
     image: ghcr.io/tuupola/php-fpm-example
-    volumes:
-      - ./:/srv/www
+    # Uncomment this if you want to dev with swarm.
+    # volumes:
+    #   - ./:/srv/www
     deploy:
       replicas: 3
       # Do not create Docker virtual IP endpoint since Caddy is used

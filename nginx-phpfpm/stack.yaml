@@ -10,8 +10,9 @@ services:
       - 443:443
   fpm:
     image: ghcr.io/tuupola/php-fpm-example
-    volumes:
-      - ./:/srv/www
+    # Uncomment this if you want to dev with swarm.
+    # volumes:
+    #   - ./:/srv/www
     deploy:
       replicas: 3
   mariadb:

@@ -10,7 +10,7 @@ services:
       - .:/srv/www
   fpm:
     build:
-      context: ./docker/fpm
+      context: .
     volumes:
       - ./:/srv/www
   mariadb:
