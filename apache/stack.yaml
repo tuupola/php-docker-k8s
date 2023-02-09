@@ -1,7 +1,6 @@
 version: "3"
 services:
   apache:
-    # This is the same compose image but pushed to ghcr.
     image: ghcr.io/tuupola/apache-php-example
     # Uncomment this if you want to dev with swarm.
     # volumes:

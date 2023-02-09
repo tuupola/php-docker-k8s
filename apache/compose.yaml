@@ -1,7 +1,9 @@
 services:
   apache:
+    image: ghcr.io/tuupola/apache-php-example
     build:
       context: .
+      dockerfile: ./docker/apache/Dockerfile
     volumes:
       # Use a bind mount for easy development.
       - ./:/srv/www
