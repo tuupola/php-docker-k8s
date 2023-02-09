@@ -29,7 +29,6 @@ services:
         - traefik.http.routers.traefik.tls=true
         - traefik.http.services.traefik.loadbalancer.server.port=8080
   apache:
-    # This is the same compose image but pushed to ghcr.
     image: ghcr.io/tuupola/apache-php-example
     # Uncomment this if you want to dev with swarm.
     # volumes:
