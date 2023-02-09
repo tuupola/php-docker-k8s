@@ -8,8 +8,10 @@ services:
       - 80:80
       - 443:443
   fpm:
+    image: ghcr.io/tuupola/php-fpm-example
     build:
       context: .
+      dockerfile: ./docker/fpm/Dockerfile
     volumes:
       - ./:/srv/www
   mariadb:

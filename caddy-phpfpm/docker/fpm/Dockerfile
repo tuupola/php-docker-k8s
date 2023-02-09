@@ -1,3 +1,8 @@
+# This is used with docker compose. The image has also been pushed
+# to GitHub Container Registry.
+#
+# $ docker pull ghcr.io/tuupola/php-fpm-example
+
 FROM php:8.1-fpm-alpine
 WORKDIR /srv/www
 
