@@ -9,8 +9,10 @@ services:
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
       - .:/srv/www
   fpm:
+    image: ghcr.io/tuupola/php-fpm-example
     build:
       context: .
+      dockerfile: ./docker/fpm/Dockerfile
     volumes:
       - ./:/srv/www
   mariadb:
