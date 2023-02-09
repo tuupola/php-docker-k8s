@@ -13,7 +13,6 @@ services:
       # https://github.com/lucaslorentz/caddy-docker-proxy/issues/207
       - CADDY_INGRESS_NETWORKS=slim_default
   apache:
-    # This is the same compose image but pushed to ghcr.
     image: ghcr.io/tuupola/apache-php-example
     # Uncomment this if you want to dev with swarm.
     # volumes:
