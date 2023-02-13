@@ -20,17 +20,23 @@ Or as a docker stack which is a more production like setup. The stack has three 
 $ docker stack deploy -c stack.yaml slim
 ```
 
-Or as a Kubernetes deployment. This also has three instances of PHP 8.1 as an Apache module load balanced by Kubernetes. Single MariaDB instance also as an deployment. Use `kubectl` to find out the ip address of the load balancer and use that instead of `example.localhost` when testing.
+Or as a Kubernetes deployment. This also has three instances of PHP 8.1 as an Apache module load balanced by Kubernetes. Single MariaDB instance also as an deployment. Use `kubectl` to find out the ip address of the ingress and add that to `/etc/hosts` as `example.local`. If you are using minikube make sure to enable the ingress addon.
 
 ```
+$ minikube addons enable ingress
 $ kubectl apply -f deployment.yaml
-$ kubectl get service/slim
+$ kubectl get ingress
+
+NAME           CLASS   HOSTS           ADDRESS          PORTS   AGE
+slim-ingress   slim    example.local   192.168.39.135   80      15m
+
+$ echo "192.168.39.135 example.local" | sudo tee --append /etc/hosts
 ```
 
 Verify that the basic route is working.
 
 ```
-$ curl --ipv4 --include example.localhost
+$ curl --ipv4 --include example.localhost # or example.local
 HTTP/1.1 200 OK
 Date: Thu, 08 Dec 2022 09:00:54 GMT
 Server: Apache/2.4.54 (Debian)
