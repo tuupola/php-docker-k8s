@@ -1,6 +1,9 @@
 services:
   nginx:
-    image: nginx:alpine
+    image: ghcr.io/tuupola/nginx-php-example
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
     volumes:
       - ./:/srv/www
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
