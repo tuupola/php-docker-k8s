@@ -11,15 +11,13 @@ $ composer install
 You can either run with docker compose for development.
 
 ```
-$ docker compose build
-$ docker compose up
+$ docker compose up --build
 ```
 
 Or as a docker stack which is a more production like setup. The stack has three instances of PHP 8.1 as PHP-FPM reverse proxied by NGINX load balanced by the swarm routing mesh. Single MariaDB instance also in the swarm
 
 ```
 $ docker swarm init
-$ docker compose build
 $ docker stack deploy -c stack.yaml slim
 ```
 
