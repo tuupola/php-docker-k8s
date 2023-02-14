@@ -1,0 +1,156 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: slim
+spec:
+  selector:
+    matchLabels:
+      app: slim
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: slim
+    spec:
+      containers:
+        - name: fpm
+          image: ghcr.io/tuupola/php-fpm-example:latest
+          ports:
+            - containerPort: 9000
+        - name: nginx
+          image: ghcr.io/tuupola/nginx-php-example:latest
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d/
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: nginx-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+data:
+  default.conf: |-
+    server {
+        listen       80;
+        server_name  _;
+
+        root /srv/www/public;
+        index index.html index.php;
+
+        location / {
+            try_files $uri /index.php$is_args$args;
+        }
+
+        location ~ \.php$ {
+            include fastcgi.conf;
+            fastcgi_index index.php;
+            fastcgi_pass localhost:9000;
+        }
+
+        location ~ /\.ht {
+            deny all;
+        }
+    }
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: slim-ingress
+spec:
+  #ingressClassName: slim
+  rules:
+  - host: "example.local"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: slim
+            port:
+              number: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: slim
+spec:
+  #type: LoadBalancer
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: slim
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb
+spec:
+  selector:
+    matchLabels:
+      app: mariadb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+        - name: mariadb
+          image: mariadb:latest
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_DATABASE
+              value: example
+            - name: MYSQL_USER
+              value: user
+            - name: MYSQL_PASSWORD
+              value: password
+            - name: MYSQL_ROOT_PASSWORD
+              value: secret
+          volumeMounts:
+            - name: database-seed
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: database-seed
+          configMap:
+            name: database-seed
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mariadb
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3306
+      targetPort: 3306
+      protocol: TCP
+  selector:
+    app: mariadb
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: database-seed
+data:
+  data.sql: |-
+    DROP TABLE IF EXISTS cars;
+
+    CREATE TABLE cars (
+        brand CHAR(32) DEFAULT NULL
+    );
+
+    LOCK TABLES cars WRITE;
+    INSERT INTO cars VALUES ("Tesla");
+    INSERT INTO cars VALUES ("Audi");
+    INSERT INTO cars VALUES ("BMW");
+    UNLOCK TABLES;

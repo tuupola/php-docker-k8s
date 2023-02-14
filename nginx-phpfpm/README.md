@@ -21,10 +21,23 @@ $ docker swarm init
 $ docker stack deploy -c stack.yaml slim
 ```
 
+Or as a Kubernetes deployment. This also has three instances of PHP 8.1 via PHP-FPM and NGINX as the reverse proxy, load balanced by Kubernetes. Single MariaDB instance also as an deployment. Use `kubectl` to find out the ip address of the ingress and add that to `/etc/hosts` as `example.local`. If you are using minikube make sure to enable the ingress addon.
+
+```
+$ minikube addons enable ingress
+$ kubectl apply -f deployment.yaml
+$ kubectl get ingress
+
+NAME           CLASS   HOSTS           ADDRESS          PORTS   AGE
+slim-ingress   slim    example.local   192.168.39.135   80      15m
+
+$ echo "192.168.39.135 example.local" | sudo tee --append /etc/hosts
+```
+
 Verify that the basic route is working.
 
 ```
-$ curl --ipv4 --include example.localhost
+$ curl --ipv4 --include example.localhost # or example.local
 HTTP/1.1 200 OK
 Server: nginx/1.23.2
 Date: Thu, 08 Dec 2022 09:38:50 GMT
