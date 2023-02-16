@@ -1,6 +1,60 @@
-# Slim Framework with Docker
+# Slim Framework with Docker and Kubernetes
 
-Examples how to run [Slim Framework](https://www.slimframework.com/) with Docker. Same setups should work with any PHP application. Subfolders have their own more specific README.
+Examples how to run [Slim Framework](https://www.slimframework.com/) with Docker and Kubernetes. Same setups should work with any PHP application. Subfolders have their own more specific README.
+
+## Docker Compose
+
+Use docker compose for development. The application source is bindmounted into the container so edits can be seen instantly.
+
+```
+$ docker compose up --build
+```
+
+## Docker Stack
+
+Docker stack is usually used for deployment into a swarm. Although you could use it also for development.
+
+```
+$ docker stack deploy -c stack.yaml slim
+```
+
+To use Docker stack you must have initialised atleast a single node [Docker swarm](https://docs.docker.com/engine/swarm/) before deploying.
+
+```
+$ docker swarm init
+```
+
+## Kubernetes
+
+Config file for Kubernetes deployments is also provided for some of the examples.
+
+```
+$ kubectl apply -f deployment.yaml
+```
+
+Since Kubernetes does not bind ports to localhost, you should somehow make `example.local` resolv to the ingress ip address. Easiest way is to add it to the hosts file.
+
+```
+$ kubectl get ingress
+
+NAME           CLASS     HOSTS           ADDRESS      PORTS   AGE
+slim-ingress   traefik   example.local   172.23.0.2   80      70s
+
+$ echo "172.23.0.2 example.local" | sudo tee --append /etc/hosts
+```
+
+There are several ways to create a local Kubernetes for testing. Easiest are probably [k3d](https://k3d.io/) and [Minikube](https://minikube.sigs.k8s.io/docs/start/). I have not tested but [Docker Desktop](https://docs.docker.com/desktop/kubernetes/) most likely works too.
+
+```
+$ k3d cluster create slim-test
+```
+
+With Minikube remember to enable ingress addon first.
+
+```
+$ minikube addons enable ingress
+$ minikube start
+```
 
 ## Apache + MariaDB
 
