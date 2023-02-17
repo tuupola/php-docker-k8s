@@ -1,5 +1,7 @@
 # Slim Framework with Docker and Kubernetes
 
+![Docker + Kubernetes](https://www.appelsiini.net/img/docker-kubernetes.png)
+
 Examples how to run [Slim Framework](https://www.slimframework.com/) with Docker and Kubernetes. Same setups should work with any PHP application. Subfolders have their own more specific README.
 
 ## Docker Compose
@@ -12,7 +14,7 @@ $ docker compose up --build
 
 ## Docker Stack
 
-Docker stack is usually used for deployment into a swarm. Although you could use it also for development. To use Docker stack you must have initialised [Docker swarm](https://docs.docker.com/engine/swarm/) before deploying.
+Docker stack is usually used for deployment into a swarm. Although you could use it also for development. To use Docker stack you must have initialised a [Docker swarm](https://docs.docker.com/engine/swarm/) before deploying.
 
 ```
 $ docker swarm init
