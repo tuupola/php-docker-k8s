@@ -1,6 +1,6 @@
 # Caddy + Apache + MariaDB
 
-Caddy as a reverse proxy in front of PHP 8.1 as an Apache module and MariaDB as the database. All in separate containers. Current directory mounted into webserver so code changes can be seen immediately. This requires you to install Composer dependencies locally in the host machine.
+Caddy as a reverse proxy in front of PHP 8.1 as an Apache module and MariaDB as the database. All in separate containers. This requires you to install Composer dependencies locally in the host machine.
 
 ```
 $ git clone https://github.com/tuupola/slim-docker.git
@@ -11,14 +11,12 @@ $ composer install
 You can either run with docker compose for development.
 
 ```
-$ docker compose build
-$ docker compose up
+$ docker compose up --build
 ```
 
-Or as a docker stack which is a more production like setup. The stack has instances of PHP 8.1 as an Apache module load balanced by Caddy. Single MariaDB instance also in the swarm.
+Or as a docker stack which is a more production like setup. The stack has a single MariaDB instance and three instances of PHP 8.1 as an Apache module load balanced by Caddy.
 
 ```
-$ docker compose build
 $ docker stack deploy -c stack.yaml slim
 ```
 

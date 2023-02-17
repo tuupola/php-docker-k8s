@@ -1,6 +1,6 @@
 # Caddy + PHP-FPM + MariaDB
 
-Modern simple setup. PHP 8.1 as PHP-FPM reverse proxied by Caddy and MariaDB as database. All in separate containers. Caddy handles TLS automatically. Current directory mounted into webserver so code changes can be seen immediately. This requires you to install Composer dependencies locally in the host machine.
+Modern simple setup. PHP 8.1 as PHP-FPM reverse proxied by Caddy and MariaDB as database. All in separate containers. Caddy handles TLS automatically. This requires you to install Composer dependencies locally in the host machine.
 
 ```
 $ git clone https://github.com/tuupola/slim-docker.git
@@ -11,16 +11,12 @@ $ composer install
 You can either run with docker compose for development.
 
 ```
-$ docker compose build
-$ docker compose up
+$ docker compose up --build
 ```
 
-Or as a docker stack which is a more production like setup. The stack has three instances of PHP 8.1 as PHP-FPM load balanced by Caddy.
+Or as a docker stack which is a more production like setup. The stack has a single MariaDB instance and three instances of PHP 8.1 as PHP-FPM load balanced by Caddy.
 
 ```
-$ docker swarm init
-$ docker compose build
-$ docker build -t slim-docker-caddy docker/caddy/
 $ docker stack deploy -c stack.yaml slim
 ```
 
