@@ -1,6 +1,6 @@
 # NGING + PHP-FPM + MariaDB
 
-The fashionable setup. PHP 8.1 as PHP-FPM reverse proxied by NGINX and MariaDB as database. All in separate containers. Current directory mounted into webserver so code changes can be seen immediately. This requires you to install Composer dependencies locally in the host machine.
+The fashionable setup. PHP 8.1 as PHP-FPM reverse proxied by NGINX and MariaDB as database. All in separate containers. This requires you to install Composer dependencies locally in the host machine.
 
 ```
 $ git clone https://github.com/tuupola/slim-docker.git
@@ -14,24 +14,16 @@ You can either run with docker compose for development.
 $ docker compose up --build
 ```
 
-Or as a docker stack which is a more production like setup. The stack has three instances of PHP 8.1 as PHP-FPM reverse proxied by NGINX load balanced by the swarm routing mesh. Single MariaDB instance also in the swarm
+Or as a docker stack which is a more production like setup. The stack has a single MariaDB instance and three instances of PHP 8.1 as PHP-FPM reverse proxied by NGINX load balanced by the swarm routing mesh.
 
 ```
-$ docker swarm init
 $ docker stack deploy -c stack.yaml slim
 ```
 
-Or as a Kubernetes deployment. This also has three instances of PHP 8.1 via PHP-FPM and NGINX as the reverse proxy, load balanced by Kubernetes. Single MariaDB instance also as an deployment. Use `kubectl` to find out the ip address of the ingress and add that to `/etc/hosts` as `example.local`. If you are using minikube make sure to enable the ingress addon.
+Or as a Kubernetes deployment. This also has a single MariaDB instance, three instances of PHP 8.1 via PHP-FPM and NGINX as the reverse proxy loadbalanced by Kubernetes.
 
 ```
-$ minikube addons enable ingress
 $ kubectl apply -f deployment.yaml
-$ kubectl get ingress
-
-NAME           CLASS   HOSTS           ADDRESS          PORTS   AGE
-slim-ingress   slim    example.local   192.168.39.135   80      15m
-
-$ echo "192.168.39.135 example.local" | sudo tee --append /etc/hosts
 ```
 
 Verify that the basic route is working.

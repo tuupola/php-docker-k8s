@@ -12,16 +12,11 @@ $ docker compose up --build
 
 ## Docker Stack
 
-Docker stack is usually used for deployment into a swarm. Although you could use it also for development.
-
-```
-$ docker stack deploy -c stack.yaml slim
-```
-
-To use Docker stack you must have initialised atleast a single node [Docker swarm](https://docs.docker.com/engine/swarm/) before deploying.
+Docker stack is usually used for deployment into a swarm. Although you could use it also for development. To use Docker stack you must have initialised [Docker swarm](https://docs.docker.com/engine/swarm/) before deploying.
 
 ```
 $ docker swarm init
+$ docker stack deploy -c stack.yaml slim
 ```
 
 ## Kubernetes

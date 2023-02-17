@@ -1,6 +1,6 @@
 # Traefik + Apache + MariaDB
 
-Traefik reverse proxy in front of PHP 8.1 as Apache an module and MariaDB as database. Traefik will force https and uses a self generated cert. Current directory mounted into webserver so code changes can be seen immediately. All in separate containers. This requires you to install Composer dependencies locally in the host machine.
+Traefik reverse proxy in front of PHP 8.1 as Apache an module and MariaDB as database. Traefik will force https and uses a self generated cert. All in separate containers. This requires you to install Composer dependencies locally in the host machine.
 
 ```
 $ git clone https://github.com/tuupola/slim-docker.git
@@ -11,15 +11,12 @@ $ composer install
 You can either run with docker compose for development.
 
 ```
-$ docker compose build
-$ docker compose up
+$ docker compose up --build
 ```
 
-Or as a docker stack which is a more production like setup. The stack has three instances of PHP 8.1 as an Apache module load balanced by Traefik.
+Or as a docker stack which is a more production like setup. The stack has has a single MariaDB instance and three instances of PHP 8.1 as an Apache module load balanced by Traefik.
 
 ```
-$ docker swarm init
-$ docker compose build
 $ docker stack deploy -c stack.yaml slim
 ```
 
@@ -33,8 +30,6 @@ Date: Fri, 23 Dec 2022 09:49:19 GMT
 Content-Length: 17
 Content-Type: text/plain; charset=utf-8
 ```
-
-Moved Permanently
 
 ```
 $ curl --ipv4 --include --insecure https://traefik.localhost
