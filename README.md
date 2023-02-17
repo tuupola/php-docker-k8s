@@ -1,4 +1,4 @@
-# Slim Framework with Docker and Kubernetes
+# PHP with Docker and Kubernetes
 
 ![Docker + Kubernetes](https://www.appelsiini.net/img/docker-kubernetes.png)
 
