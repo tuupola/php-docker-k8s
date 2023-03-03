@@ -1,0 +1,4 @@
+# commonLabels:
+#   app: slim
+resources:
+  - deployment.yaml
