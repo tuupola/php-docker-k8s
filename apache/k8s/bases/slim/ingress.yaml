@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: slim-ingress
+spec:
+  #ingressClassName: nginx
+  rules:
+  - host: "example.local"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: slim
+            port:
+              number: 80

@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: slim
+spec:
+  selector:
+    matchLabels:
+      app: slim
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: slim
+    spec:
+      containers:
+        - name: slim
+          image: ghcr.io/tuupola/apache-php-example:latest
+          ports:
+            - containerPort: 80

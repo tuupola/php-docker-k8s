@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: database-seed
+data:
+  data.sql: |-
+    DROP TABLE IF EXISTS cars;
+
+    CREATE TABLE cars (
+        brand CHAR(32) DEFAULT NULL
+    );
+
+    LOCK TABLES cars WRITE;
+    INSERT INTO cars VALUES ("Tesla");
+    INSERT INTO cars VALUES ("Audi");
+    INSERT INTO cars VALUES ("BMW");
+    UNLOCK TABLES;
