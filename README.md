@@ -4,6 +4,28 @@
 
 Examples how to run [Slim Framework](https://www.slimframework.com/) with Docker and Kubernetes. Same setups should work with any PHP application. Subfolders have their own more specific README.
 
+## Setups
+### Apache + MariaDB
+
+[The simplest possible setup](apache/). PHP 8.1 as Apache an module and MariaDB in separate containers. This setup also has a Kubernetes example.
+
+### NGINX + PHP-FPM + MariaDB
+
+[The fashionable setup](nginx-phpfpm/). PHP 8.1 as PHP-FPM reverse proxied by NGINX and MariaDB as database. All in separate containers. This setup also has a Kubernetes example.
+
+### Caddy + Apache + MariaDB
+
+[Modern simple setup](caddy-apache/). Caddy as a reverse proxy in front of PHP 8.1 as an Apache module and MariaDB as the database. All in separate containers. With Docker Caddy handles TLS automatically. There is no Kubernetes example. With Kubernetes you would use ingress instead of manually installed Caddy.
+
+
+### Caddy + PHP-FPM + MariaDB
+
+[Modern setup](caddy-phpfpm/). PHP 8.1 as PHP-FPM reverse proxied by Caddy and MariaDB as database. All in separate containers. With Docker Caddy handles TLS automatically. TODO: add Kubernetes example.
+
+### Traefik + Apache + MariaDB
+
+[Enterprisey setup](traefik-apache/). Traefik as reverse proxy in front of PHP 8.1 as Apache an module and MariaDB as the database. With Docker Traefik handles TLS automatically. There is no Kubernetes example. With Kubernetes you would use ingress instead of manually installed Traefik.
+
 ## Docker Compose
 
 Use docker compose for development. The application source is bindmounted into the container so edits can be seen instantly.
@@ -114,25 +136,3 @@ $ curl --ipv4 --include https://example.localhost/cars
 $ curl --ipv4 --include https://example.localhost/static.html
 $ curl --ipv4 --include https://example.localhost/server\?foo=bar
 ```
-
-## Setups
-### Apache + MariaDB
-
-[The simplest possible setup](apache/). PHP 8.1 as Apache an module and MariaDB in separate containers. This setup also has a Kubernetes example.
-
-### NGINX + PHP-FPM + MariaDB
-
-[The fashionable setup](nginx-phpfpm/). PHP 8.1 as PHP-FPM reverse proxied by NGINX and MariaDB as database. All in separate containers. This setup also has a Kubernetes example.
-
-### Caddy + Apache + MariaDB
-
-[Modern simple setup](caddy-apache/). Caddy as a reverse proxy in front of PHP 8.1 as an Apache module and MariaDB as the database. All in separate containers. With Docker Caddy handles TLS automatically. There is no Kubernetes example. With Kubernetes you would use ingress instead of manually installed Caddy.
-
-
-### Caddy + PHP-FPM + MariaDB
-
-[Modern setup](caddy-phpfpm/). PHP 8.1 as PHP-FPM reverse proxied by Caddy and MariaDB as database. All in separate containers. With Docker Caddy handles TLS automatically. TODO: add Kubernetes example.
-
-### Traefik + Apache + MariaDB
-
-[Enterprisey setup](traefik-apache/). Traefik as reverse proxy in front of PHP 8.1 as Apache an module and MariaDB as the database. With Docker Traefik handles TLS automatically. There is no Kubernetes example. With Kubernetes you would use ingress instead of manually installed Traefik.
