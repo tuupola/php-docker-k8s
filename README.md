@@ -39,7 +39,7 @@ $ kubectl apply -f deployment.yaml
 $ kubectl apply -k kustomize
 ```
 
-You can also deploy alternative production or staging configurations. These are just examples on how to use Kustomize. Only difference between these deployments is the number of replicas.
+You can also deploy alternative production or staging configurations. These are just examples on how to use Kustomize. Only difference between production and staging deployments is the number of replicas.
 
 ```
 $ kubectl apply -k kustomize/overlays/production
