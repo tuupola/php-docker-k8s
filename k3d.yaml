@@ -1,0 +1,7 @@
+# $ k3d cluster create -c k3d.yaml
+apiVersion: k3d.io/v1alpha4
+kind: Simple
+metadata:
+  name: slim-test
+servers: 1
+agents: 3
