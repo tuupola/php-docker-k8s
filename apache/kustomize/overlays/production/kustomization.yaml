@@ -1,6 +1,5 @@
-commonLabels:
-  env: production
 resources:
   - ../../bases/slim
+  - ../../bases/mariadb
 patches:
   - deployment.yaml
