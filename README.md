@@ -7,7 +7,7 @@ Examples how to run [Slim Framework](https://www.slimframework.com/) with Docker
 ## Setups
 ### Apache + MariaDB
 
-[The simplest possible setup](apache/). PHP 8.1 as Apache an module and MariaDB in separate containers. This setup also has a Kubernetes example.
+[The simplest possible setup](apache/). PHP 8.1 as Apache an module and MariaDB in separate containers. This setup also has a Kubernetes and Kustomize example.
 
 ### NGINX + PHP-FPM + MariaDB
 
