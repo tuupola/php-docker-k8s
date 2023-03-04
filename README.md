@@ -23,11 +23,38 @@ $ docker stack deploy -c stack.yaml slim
 
 ## Kubernetes
 
-Config file for Kubernetes deployments is also provided for some of the examples.
+### Manifests
+
+Vanilla manifests are the simplest way to create Kubernetes deployments. If an example supports Kubernetes manifests it will have a file named `deployment.yaml`.
 
 ```
 $ kubectl apply -f deployment.yaml
 ```
+
+### Kustomize
+
+[Kustomize](https://kustomize.io/) provides more robust way of deploying applications to Kubernetes. If an example supports Kustomize it will have a subfolder named `kustomize`.
+
+```
+$ kubectl apply -k kustomize
+```
+
+You can also deploy alternative production or staging configurations. These are just examples on how to use Kustomize. Only difference between these deployments is the number of replicas.
+
+```
+$ kubectl apply -k kustomize/overlays/production
+$ kubectl apply -k kustomize/overlays/staging
+```
+
+If you have the standalone kustomize binary installed, you can also see the generated manifests with the following.
+
+```
+$ kustomize build kustomize
+$ kustomize build kustomize/overlays/production
+$ kustomize build kustomize/overlays/staging
+```
+
+### Ingress
 
 Since Kubernetes does not bind ports to localhost, you should somehow make `example.local` resolv to the ingress ip address. Easiest way is to add it to the hosts file.
 
@@ -43,7 +70,13 @@ $ echo "172.23.0.2 example.local" | sudo tee --append /etc/hosts
 There are several ways to create a local Kubernetes for testing. Easiest are probably [k3d](https://k3d.io/) and [Minikube](https://minikube.sigs.k8s.io/docs/start/). I have not tested, but [Docker Desktop](https://docs.docker.com/desktop/kubernetes/) most likely works too.
 
 ```
-$ k3d cluster create slim-test
+$ k3d cluster create slim-test --servers 1 --agents 3
+```
+
+Or you can use the provided config file.
+
+```
+$ k3d cluster create -f k3d.yaml
 ```
 
 With Minikube remember to enable ingress addon first.

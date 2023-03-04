@@ -20,10 +20,23 @@ Or as a docker stack which is a more production like setup. The stack has a sing
 $ docker stack deploy -c stack.yaml slim
 ```
 
-Or as a Kubernetes deployment. This also has a single MariaDB instance, three instances of PHP 8.1 as an Apache module load balanced by Kubernetes.
+Or as a Kubernetes deployment. This also has a single MariaDB instance, three instances of PHP 8.1 as an Apache module load balanced by Kubernetes. You can use either vanilla Kubernetes manifest or [Kustomize](https://kustomize.io/) based config. No need to run both commands, choose which one you want to use.
 
 ```
 $ kubectl apply -f deployment.yaml
+$ kubectl apply -k kustomize
+```
+
+There is also an Kustomize [overlay](kustomize/overlays/) example. The following command creates a deployment with five instances of Apache.
+
+```
+$ kubectl apply -k kustomize/overlays/production
+```
+
+The staging overlay uses only one Apache instance.
+
+```
+$ kubectl apply -k kustomize/overlays/staging
 ```
 
 Verify that the basic route is working.
