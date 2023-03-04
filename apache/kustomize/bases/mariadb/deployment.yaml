@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb
+spec:
+  selector:
+    matchLabels:
+      app: mariadb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+        - name: mariadb
+          image: mariadb:latest
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_DATABASE
+              value: example
+            - name: MYSQL_USER
+              value: user
+            - name: MYSQL_PASSWORD
+              value: password
+            - name: MYSQL_ROOT_PASSWORD
+              value: secret
+          volumeMounts:
+            - name: database-seed
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: database-seed
+          configMap:
+            name: database-seed
